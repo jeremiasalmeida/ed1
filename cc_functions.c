@@ -3,15 +3,16 @@
 #include <string.h>
 #include "cc_functions.h"
 #include "movi_functions.h"
+#include "print_format.h"
 
 /*
  * Retorna a altura de uma arvore.
  */
-int height(struct cc* N)
+int height(struct cc* acc)
 {
-    if (N == NULL)
+    if (acc == NULL)
         return 0;
-    return N->altura;
+    return acc->altura;
 }
  
 /*
@@ -29,12 +30,12 @@ int max(int a, int b)
  */
 struct cc* newNode(int key)
 {
-    struct cc* cc = (struct cc*) malloc(sizeof(struct cc));
-    //TODO acrescentar todos os campos de cc
-    cc->esquerda   = NULL;
-    cc->direita  = NULL;
-    cc->altura = 1;  // new node is initially added at leaf
-    return(cc);
+    struct cc* node = (struct cc*) malloc(sizeof(struct cc));
+    node->id   = key;
+    node->esquerda   = NULL;
+    node->direita  = NULL;
+    node->altura = 1;
+    return(node);
 }
  
 /*
@@ -53,7 +54,7 @@ struct cc* rightRotate(struct cc* y)
     y->altura = max(height(y->esquerda), height(y->direita))+1;
     x->altura = max(height(x->esquerda), height(x->direita))+1;
  
-    // Return new root
+    
     return x;
 }
  
@@ -82,7 +83,7 @@ struct cc* leftRotate(struct cc* x)
  */
 int getBalance(struct cc* N)
 {
-    if (N == NULL)
+     if (N == NULL)
         return 0;
     return height(N->esquerda) - height(N->direita);
 }
@@ -125,7 +126,7 @@ struct cc* getData()
  */
 struct cc* insert(struct cc* node, int id)
 {
-    /* 1.  Perform the normal BST rotation */
+    
     if (node == NULL)
         return(newNode(id));
  
@@ -134,38 +135,28 @@ struct cc* insert(struct cc* node, int id)
     else
         node->direita = insert(node->direita, id);
  
-    /* 2. Update height of this ancestor node */
     node->altura = max(height(node->esquerda), height(node->direita)) + 1;
  
-    /* 3. Get the balance factor of this ancestor node to check whether
-       this node became unbalanced */
     int balance = getBalance(node);
  
-    // If this node becomes unbalanced, then there are 4 cases
- 
-    // Left Left Case
     if (balance > 1 && id < node->esquerda->id)
         return rightRotate(node);
  
-    // Right Right Case
     if (balance < -1 && id > node->direita->id)
         return leftRotate(node);
  
-    // Left Right Case
     if (balance > 1 && id > node->esquerda->id)
     {
         node->esquerda =  leftRotate(node->esquerda);
         return rightRotate(node);
     }
  
-    // Right Left Case
     if (balance < -1 && id < node->direita->id)
     {
         node->direita = rightRotate(node->direita);
         return leftRotate(node);
     }
  
-    /* return the (unchanged) node pointer */
     return node;
 }
  
@@ -174,10 +165,8 @@ struct cc* insert(struct cc* node, int id)
  */
 void preOrder(struct cc* root)
 {
-    if(root != NULL)
-    {
-        printf("%d ", root->id);
-        preOrder(root->esquerda);
-        preOrder(root->direita);
-    }
+    if(root == NULL) return;
+    printf("%d ",root->id);
+    preOrder(root->esquerda);
+    preOrder(root->direita);
 }

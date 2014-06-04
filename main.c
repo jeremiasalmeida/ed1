@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "cc_functions.h"
 #include "movi_functions.h"
+#include "print_format.h"
 #define testenum 20
 
 int main()
@@ -9,17 +10,8 @@ int main()
     int i=0;
     print_red("ATENÇÃO");
     print_alert("Todos os valores inseridos no programa serao considerados em modulo.");
-        
-    struct movi* root = newMovi("D",1200.00);
-    printf("%s",root->tipo);
-    //print_movi(root);
-    //insertMovi(root,newMovi("S",1000.00));
-    //print_movi(root);
-    
-    
     return 0;
 }
-
 
 /*
  * TODO: a) registro de conta corrente

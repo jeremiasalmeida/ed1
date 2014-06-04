@@ -9,6 +9,7 @@ void print_bold(char t[])
 {
     printf("\e[1m %s \e[0m\n",t);
 }
+
 /*
  * Printa vermelho
  */

@@ -7,27 +7,28 @@
 /*
  * insere uma nova movimentação a uma lista dada
  */
-struct movi* newMovi(char tipo[], float valor)
+struct movi* newMovi(char* tipo, float valor)
 {
     struct movi* novo = (struct movi*) malloc(sizeof(struct movi));
-    strcpy(novo->tipo,tipo);
+    novo->tipo = tipo;
     novo->valor = valor;
     novo->proximo = NULL;
     return novo;
 }
 
-struct movi* insertMovi(struct movi* root,struct movi* novo)
+struct movi* insertMovi(struct movi** root,struct movi* novo)
 {
     //iniciar a procura pelo último item
-    if(!(root))
+    if(!(*root))
     {
-        root = novo;
+        (*root) = novo;
     }
     else
     {
-        insertMovi(root->proximo, novo);
+        insertMovi(&(*root)->proximo, novo);
     }
 }
+
 /*
  * Faz a coleta das informacoes necessarias para uma nova movimentacao
  */
@@ -68,12 +69,13 @@ struct movi* getData_movi()
     }
     return newMovi(tipo,valor);
 }
+
 /*
  * Printa a movimentação de uma lista dada.
  */
 void print_movi(struct movi* root)
 {
     if(!(root)) return;
-    printf("Tipo: %s | Valor: %d",root->tipo,root->valor);
+    printf("(Tipo: %s | Valor: %.2f) -> ",root->tipo,root->valor);
     print_movi(root->proximo);
 }

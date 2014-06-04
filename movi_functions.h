@@ -16,7 +16,7 @@
 struct movi
 {
     int id;
-    char tipo[0];
+    char* tipo;
     float valor;
     struct movi* proximo;
 };
@@ -30,7 +30,7 @@ struct movi* newMovi(char tipo[], float valor);
 /*
  * insere uma nova movimentação a uma lista dada
  */
-extern struct movi* insertMovi(struct movi* root,struct movi* novo);
+extern struct movi* insertMovi(struct movi** root,struct movi* novo);
 
 /*
  * Printa a movimentação de uma lista dada.
