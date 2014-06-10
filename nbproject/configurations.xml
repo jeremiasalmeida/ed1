@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>cc_functions.h</itemPath>
+      <itemPath>input_functions.h</itemPath>
       <itemPath>movi_functions.h</itemPath>
       <itemPath>print_format.h</itemPath>
     </logicalFolder>
@@ -16,10 +17,10 @@
                    displayName="Source Files"
                    projectFiles="true">
       <itemPath>cc_functions.c</itemPath>
+      <itemPath>input_functions.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>movi_functions.c</itemPath>
       <itemPath>print_format.c</itemPath>
-      <itemPath>samples.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -47,6 +48,10 @@
       </item>
       <item path="cc_functions.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="input_functions.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="input_functions.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="movi_functions.c" ex="false" tool="0" flavor2="0">
@@ -56,8 +61,6 @@
       <item path="print_format.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="print_format.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="samples.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -84,6 +87,10 @@
       </item>
       <item path="cc_functions.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="input_functions.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="input_functions.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="movi_functions.c" ex="false" tool="0" flavor2="0">
@@ -93,8 +100,6 @@
       <item path="print_format.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="print_format.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="samples.c" ex="false" tool="0" flavor2="0">
       </item>
     </conf>
   </confs>

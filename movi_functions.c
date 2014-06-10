@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
 #include <string.h>
 #include "movi_functions.h"
@@ -34,6 +35,7 @@ struct movi* insertMovi(struct movi** root,struct movi* novo)
  */
 struct movi* getData_movi()
 {
+    int teste=0;
     char tipo[] = "\0";
     float valor = 0;
     
@@ -49,26 +51,57 @@ struct movi* getData_movi()
         else{printf("Opcao %s selecionada.\n",tipo);}
     }
     
-    while(valor==0)
+    while((!teste) && (valor==0.00))
     {
-        scanf("%f",&valor);
+        print_bold("Entre com o valor:");
+        teste = getInutFloat(&valor);
+        
         if((valor == 0))
         {
-            print_red("Valor inserido nao e valido.");
+            print_red("Valor inserido não é válido.");
             valor = 0.00;
         }
         
-        if( ((strcmp(tipo,"T") == 0) || (strcmp(tipo,"D") == 0)) && (valor < 0.00))
-        {
-            valor = -1*valor;
-        }
-        else if((strcmp(tipo,"S") == 0) && (valor > 0))
+        
+        if(strcmp(tipo,"D"))     {return deposito(valor);}
+        else if(strcmp(tipo,"S")){return saque(valor);}
+        else if(strcmp(tipo,"T")){print_alert("implementar transferencia");}
+        
+        if((strcmp(tipo,"S") == 0) && (valor > 0))
         {
             valor = -1*valor;
         }
     }
-    return newMovi(tipo,valor);
 }
+/*
+ * Cria uma movimentação de deposito
+ */
+struct movi* deposito(float valor)
+{
+    if(valor < 0.00)
+    {
+        valor = -1*valor;
+    }
+    return newMovi("D",valor);
+}
+
+/*
+ * Cria uma movimentação de saque
+ */
+struct movi* saque(float valor)
+{
+    if(valor > 0.00)
+    {
+        valor = -1*valor;
+    }
+    return newMovi("S",valor);
+}
+
+struct movi* transferencia()
+{
+    
+}
+
 
 /*
  * Printa a movimentação de uma lista dada.
@@ -78,4 +111,36 @@ void print_movi(struct movi* root)
     if(!(root)) return;
     printf("(Tipo: %s | Valor: %.2f) -> ",root->tipo,root->valor);
     print_movi(root->proximo);
+}
+
+struct tm* getDataAtual()
+{
+    time_t currentTime;
+    struct tm *timeinfo;
+    
+    /* Pega a hora atual do sistema e a converte em uma estrutura tm. */
+    time(&currentTime);
+    timeinfo= localtime(&currentTime);
+
+    mktime(timeinfo);
+
+    return timeinfo;
+}
+
+struct tm* getParaData(int dia, int mes, int ano)
+{
+    time_t currentTime;
+    struct tm *timeinfo;
+    
+    /* Pega a hora atual do sistema e a converte em uma estrutura tm. */
+    time(&currentTime);
+    timeinfo= localtime(&currentTime);
+    
+    timeinfo->tm_mday= dia;
+    timeinfo->tm_mon= mes - 1;
+    timeinfo->tm_year= ano - 1900;
+    
+    mktime(timeinfo);
+
+    return timeinfo;
 }

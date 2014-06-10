@@ -36,10 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/cc_functions.o \
+	${OBJECTDIR}/input_functions.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/movi_functions.o \
-	${OBJECTDIR}/print_format.o \
-	${OBJECTDIR}/samples.o
+	${OBJECTDIR}/print_format.o
 
 
 # C Compiler Flags
@@ -60,16 +60,21 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projetoed1
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ed1
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projetoed1: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ed1: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projetoed1 ${OBJECTFILES} ${LDLIBSOPTIONS}
+	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ed1 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/cc_functions.o: cc_functions.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/cc_functions.o cc_functions.c
+
+${OBJECTDIR}/input_functions.o: input_functions.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/input_functions.o input_functions.c
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}
@@ -86,18 +91,13 @@ ${OBJECTDIR}/print_format.o: print_format.c
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/print_format.o print_format.c
 
-${OBJECTDIR}/samples.o: samples.c 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/samples.o samples.c
-
 # Subprojects
 .build-subprojects:
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/projetoed1
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ed1
 
 # Subprojects
 .clean-subprojects:

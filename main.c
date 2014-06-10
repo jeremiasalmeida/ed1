@@ -8,8 +8,11 @@
 int main()
 {
     int i=0;
+    struct cc* raiz = NULL;
     print_red("ATENÇÃO");
-    print_alert("Todos os valores inseridos no programa serao considerados em modulo.");
+    print_alert("O modulos dos valores inseridos no programa serão automaticamente ajustados de acordo com a acao.");
+    
+    getData();
     return 0;
 }
 

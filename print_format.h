@@ -12,5 +12,9 @@
  * Printa texto em bold
  */
 void print_bold(char t[]);
-
+void print_bold(char t[]);
+void print_red(char t[]);
+void print_green(char t[]);
+void print_yellow(char t[]);
+void print_alert(char t[]);
 #endif	/* PRINT_FORMAT_H */

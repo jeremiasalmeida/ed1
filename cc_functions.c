@@ -4,6 +4,7 @@
 #include "cc_functions.h"
 #include "movi_functions.h"
 #include "print_format.h"
+#include "input_functions.h"
 
 /*
  * Retorna a altura de uma arvore.
@@ -97,27 +98,116 @@ int getBalance(struct cc* N)
 struct cc* getData()
 {
     //Todos os dados são necessários
-    char nome[40] = "", senha[6] = "", //login/nome e senha
-            cpf[12] = "", rg[10] = "", //documentos
-            nascimento[10] = "", abertura[10] = "", ultima[10] = "", //datas
-            tipo_conta, tipo_mov; //char únicos
-    struct movi* raiz = (struct movi*) malloc(sizeof(struct movi)); //deposito inicial
-    //abre para entrada do nome
-    printf(">>> %d",strcmp(nome,""));
-/*
- * Nome: nome do cliente (formato: caracter com 40 posições);
- * Senha: senha do cliente (formato: caracter com 6 posições);
- * CPF: cadastro de pessoa física (formato: caracter com 12 posições);
- * RG: registro geral (formato: caracter com 10 posições);
- * Data de nascimento: data de nascimento do cliente (formato: caracter com 10 posições);
- * Data de abertura: data em que o cliente realizou a abertura da conta corrente (formato: caracter com 10 posições);
- * Depósito inicial: valor inicial de depósito (formato: real); tipo da conta: pode ser especial (E),
- * quando o depósito inicial for superior a R$12.000,00, e comum (C), caso contrário (formato: 1 caracter);
- * Saldo atual: valor do saldo atual (formato: real);
- * Data da última movimentação: data da última movimentação realizada pelo cliente sobre a conta corrente
- * (formato: caracter com 10 posições);
- * Tipo da movimentação: tipo da última movimentação (D – débito; C – crédito) (formato: 1 caracter);
- */
+    int teste=0, dia=0, mes=0, ano=0;
+    float valor=0.00;
+    char nascimento[10], buffer[100];
+    struct cc* node = newNode(-1);
+    
+    
+    //Inicia a entrada dos dados
+    print_bold("Entre com o nome:");
+    while(!teste)
+    {
+        teste = getInutChar(node->nome);
+        if(!strcmp(node->nome,""))
+        {
+            print_alert("Nome não pode ser vazio");
+            teste=0;
+        }
+    }
+    
+    teste=0;
+    print_bold("Entre com a senha:");
+    while(!teste)
+    {
+        teste = getInutChar(node->senha);
+        if(!strcmp(node->senha,""))
+        {
+            print_alert("Senha não pode ser vazia");
+            teste=0;
+        }
+    }
+    
+    teste=0;
+    print_bold("Entre com CPF (apenas numeros):");
+    while(!teste)
+    {
+        teste = getInutChar(node->cpf);
+        if(!strcmp(node->cpf,""))
+        {
+            print_alert("CPF não pode ser vazio");
+            teste=0;
+        }
+    }
+    
+    teste=0;
+    print_bold("Entre com a RG (apenas numeros):");
+    while(!teste)
+    {
+        teste = getInutChar(node->rg);
+        if(!strcmp(node->rg,""))
+        {
+            print_alert("RG não pode ser vazio");
+            teste=0;
+        }
+    }
+    
+    teste=0;
+    print_bold("Entre com a Data de nascimento(dd/mm/aaaa):");
+    while(!teste)
+    {
+        teste = getInutChar(nascimento);       
+        
+        if(!strcmp(nascimento,""))
+        {
+            print_alert("Data de nascimento não pode ser vazia");
+            teste=0;
+        }
+        else if(teste)
+        {
+            sprintf(buffer, "%c%c", nascimento[0], nascimento[1]);
+            sscanf(buffer,"%d",&dia);
+            printf(">> %d << \n",dia);
+            
+            sprintf(buffer, "%c%c", nascimento[3], nascimento[4]);
+            sscanf(buffer,"%d",&mes);
+            printf(">> %d << \n",mes);
+            
+            sprintf(buffer, "%c%c%c%c", nascimento[6], nascimento[7], nascimento[8], nascimento[9]);
+            sscanf(buffer,"%d",&ano);
+            printf(">> %d << \n",ano);
+            
+            node->nascimento->tm_mday = dia;
+            node->nascimento->tm_mon = mes-1;
+            node->nascimento->tm_year = ano-1900;
+        }
+    }
+    
+    teste=0;
+    print_bold("Entre com o valor de depósito inicial:");
+    while(!teste)
+    {
+        teste = getInutFloat(&valor);
+        node->raiz = deposito(valor);
+        if(valor > 12000.00) {node->tipo_conta = "E";}else{node->tipo_conta = "C";}
+        
+        node->saldo_atual = valor;
+        node->ultima_data = getDataAtual();
+        node->ultima_tipo = "D";
+        node->ultima_valor = valor;
+    }
+    
+    teste=0;
+    print_bold(":");
+    while(!teste)
+    {
+        teste = getInutChar(node->senha);
+        if(!strcmp(node->senha,""))
+        {
+            print_alert("Senha não pode ser vazia");
+            teste=0;
+        }
+    }
 }
 
 /*

@@ -43,4 +43,15 @@ extern void print_movi(struct movi* root);
  */
 extern struct movi* getData_movi();
 
+
+extern struct movi* deposito(float valor);
+
+/*
+ * Cria uma movimentação de saque
+ */
+extern struct movi* saque(float valor);
+
+extern struct movi* transferencia();
+
+
 #endif	/* MOVI_FUNCTIONS_H */

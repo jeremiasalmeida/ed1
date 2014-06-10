@@ -1,3 +1,4 @@
+#include <time.h>
 /* 
  * File:   cc_functions.h
  * Author: jeremias almeida
@@ -26,13 +27,12 @@
 struct cc
 {
     int id, altura;
-    char nome[40], senha[6], cpf[12], rg[10], nascimento[10], abertura[10], ultima[10], tipo_conta, tipo_mov;
-    float saldo_atual;
-    struct cc* esquerda;
-    struct cc* direita;
+    float saldo_atual, ultima_valor;
+    char nome[40], senha[6], cpf[12], rg[10], tipo_conta, ultima_tipo;
+    struct tm* nascimento, abertura, ultima_data;
+    struct cc* esquerda, direita;
     struct movi* raiz;
 };
-
 
 /*
  * Helper para trazer o maior valor entre dois inteiros
