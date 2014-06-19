@@ -29,13 +29,16 @@ int max(int a, int b)
  * Com esta centralização da criação de itens cc é possivel controlar prever o comportamento de todos os itens
  * da struct cc
  */
-struct cc* newNode(int key)
+struct cc* newNode()
 {
     struct cc* node = (struct cc*) malloc(sizeof(struct cc));
-    node->id   = key;
+    node->id   = -1;
     node->esquerda   = NULL;
     node->direita  = NULL;
     node->altura = 1;
+    node->nascimento = getDateAtual();
+    node->abertura = getDateAtual();
+   
     return(node);
 }
  
@@ -101,9 +104,8 @@ struct cc* getData()
     int teste=0, dia=0, mes=0, ano=0;
     float valor=0.00;
     char nascimento[10], buffer[100];
-    struct cc* node = newNode(-1);
-    
-    
+    struct cc* node = newNode();
+ /*   
     //Inicia a entrada dos dados
     print_bold("Entre com o nome:");
     while(!teste)
@@ -153,7 +155,7 @@ struct cc* getData()
     }
     
     teste=0;
-    print_bold("Entre com a Data de nascimento(dd/mm/aaaa):");
+    print_bold("Entre com a Data de nascimento (dd/mm/aaaa):");
     while(!teste)
     {
         teste = getInutChar(nascimento);       
@@ -167,87 +169,82 @@ struct cc* getData()
         {
             sprintf(buffer, "%c%c", nascimento[0], nascimento[1]);
             sscanf(buffer,"%d",&dia);
-            printf(">> %d << \n",dia);
             
             sprintf(buffer, "%c%c", nascimento[3], nascimento[4]);
             sscanf(buffer,"%d",&mes);
-            printf(">> %d << \n",mes);
             
             sprintf(buffer, "%c%c%c%c", nascimento[6], nascimento[7], nascimento[8], nascimento[9]);
             sscanf(buffer,"%d",&ano);
-            printf(">> %d << \n",ano);
             
             node->nascimento->tm_mday = dia;
             node->nascimento->tm_mon = mes-1;
             node->nascimento->tm_year = ano-1900;
         }
     }
-    
+*/
     teste=0;
     print_bold("Entre com o valor de depósito inicial:");
     while(!teste)
     {
         teste = getInutFloat(&valor);
         node->raiz = deposito(valor);
-        if(valor > 12000.00) {node->tipo_conta = "E";}else{node->tipo_conta = "C";}
+        if(valor > 12000.00) {node->tipo_conta = 'E';}else{node->tipo_conta = 'C';}
         
         node->saldo_atual = valor;
-        node->ultima_data = getDataAtual();
-        node->ultima_tipo = "D";
+        node->ultima_data = getDateAtual();
+        node->ultima_tipo = 'D';
         node->ultima_valor = valor;
-    }
-    
-    teste=0;
-    print_bold(":");
-    while(!teste)
-    {
-        teste = getInutChar(node->senha);
-        if(!strcmp(node->senha,""))
-        {
-            print_alert("Senha não pode ser vazia");
-            teste=0;
-        }
-    }
+    }  
+    return node;
 }
 
 /*
  * Faz toda a rotina de inserção de um novo item na arvore de contas correntes.
  * Também cuida para que a após a inserção a arvore permaneça balanceada.
  */
-struct cc* insert(struct cc* node, int id)
+struct cc* insert(struct cc* node, struct cc* new, int id)
 {
-    
-    if (node == NULL)
-        return(newNode(id));
- 
-    if (id < node->id)
-        node->esquerda  = insert(node->esquerda, id);
+    if (id > 0)
+    {
+        if(!(node))
+        {
+            new->id = id;
+            return new;
+        }
+        
+        if (id < node->id)
+            node->esquerda  = insert(node->esquerda, new, id);
+        else
+            node->direita = insert(node->direita, new, id);
+
+        node->altura = max(height(node->esquerda), height(node->direita)) + 1;
+
+        int balance = getBalance(node);
+
+        if (balance > 1 && id < node->esquerda->id)
+            return rightRotate(node);
+
+        if (balance < -1 && id > node->direita->id)
+            return leftRotate(node);
+
+        if (balance > 1 && id > node->esquerda->id)
+        {
+            node->esquerda =  leftRotate(node->esquerda);
+            return rightRotate(node);
+        }
+
+        if (balance < -1 && id < node->direita->id)
+        {
+            node->direita = rightRotate(node->direita);
+            return leftRotate(node);
+        }
+
+        return node;
+    }
     else
-        node->direita = insert(node->direita, id);
- 
-    node->altura = max(height(node->esquerda), height(node->direita)) + 1;
- 
-    int balance = getBalance(node);
- 
-    if (balance > 1 && id < node->esquerda->id)
-        return rightRotate(node);
- 
-    if (balance < -1 && id > node->direita->id)
-        return leftRotate(node);
- 
-    if (balance > 1 && id > node->esquerda->id)
     {
-        node->esquerda =  leftRotate(node->esquerda);
-        return rightRotate(node);
+        print_red("Impossível cadastrar mais clientes");
     }
- 
-    if (balance < -1 && id < node->direita->id)
-    {
-        node->direita = rightRotate(node->direita);
-        return leftRotate(node);
-    }
- 
-    return node;
 }
  
 /*
@@ -259,4 +256,33 @@ void preOrder(struct cc* root)
     printf("%d ",root->id);
     preOrder(root->esquerda);
     preOrder(root->direita);
+}
+
+int findNextId(struct cc* root)
+{
+    if(!(root))
+    {
+        return 1;
+    }
+    else
+    {
+        if(!(root->direita))
+        {
+            return root->id +1;
+        }
+        else
+        {
+            return findNextId(root->direita);
+        }
+    }
+}
+
+struct cc* findById(struct cc* node, int id)
+{
+    if(!(node)) return NULL;
+    
+    if(node->id == id) return node;
+    
+    if(id < node->id){return findById(node->esquerda,id);}else{return findById(node->direita,id);}
+    
 }

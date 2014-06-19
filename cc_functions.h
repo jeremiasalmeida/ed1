@@ -29,8 +29,8 @@ struct cc
     int id, altura;
     float saldo_atual, ultima_valor;
     char nome[40], senha[6], cpf[12], rg[10], tipo_conta, ultima_tipo;
-    struct tm* nascimento, abertura, ultima_data;
-    struct cc* esquerda, direita;
+    struct tm *nascimento, *abertura, *ultima_data;
+    struct cc* esquerda, *direita;
     struct movi* raiz;
 };
 
@@ -53,7 +53,7 @@ extern void preOrder(struct cc* root);
  * Faz toda a rotina de inserção de um novo item na arvore de contas correntes.
  * Também cuida para que a após a inserção a arvore permaneça balanceada.
  */
-extern struct cc* insert(struct cc* node, int id);
+extern struct cc* insert(struct cc* node, struct cc* new, int id);
 
 /*
  * Esta função tem a finalidade de funcionar como um 'model' dos dados de uma conta corrente. Ela terá que saber:
@@ -83,6 +83,8 @@ extern struct cc* rightRotate(struct cc* y);
  * Com esta centralização da criação de itens cc é possivel controlar prever o comportamento de todos os itens
  * da struct cc
  */
-extern struct cc* newNode(int key);
+extern struct cc* newNode();
 
+extern int findNextId(struct cc* root);
+extern struct cc* findById(struct cc* node, int id);
 #endif	/* CC_FUNCTIONS_H */

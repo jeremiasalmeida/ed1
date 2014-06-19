@@ -113,14 +113,14 @@ void print_movi(struct movi* root)
     print_movi(root->proximo);
 }
 
-struct tm* getDataAtual()
+struct tm* getDateAtual()
 {
     time_t currentTime;
-    struct tm *timeinfo;
+    struct tm* timeinfo;
     
     /* Pega a hora atual do sistema e a converte em uma estrutura tm. */
     time(&currentTime);
-    timeinfo= localtime(&currentTime);
+    timeinfo = localtime(&currentTime);
 
     mktime(timeinfo);
 

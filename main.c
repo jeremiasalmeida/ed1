@@ -4,7 +4,7 @@
 #include "movi_functions.h"
 #include "print_format.h"
 #define testenum 20
-
+//1111011991
 int main()
 {
     int i=0;
@@ -12,7 +12,12 @@ int main()
     print_red("ATENÇÃO");
     print_alert("O modulos dos valores inseridos no programa serão automaticamente ajustados de acordo com a acao.");
     
-    getData();
+    raiz = insert(raiz, newNode(), findNextId(raiz));
+    raiz = insert(raiz, newNode(), findNextId(raiz));
+    raiz = insert(raiz, newNode(), findNextId(raiz));
+    raiz = insert(raiz, newNode(), findNextId(raiz));
+    raiz = insert(raiz, newNode(), findNextId(raiz));
+   
     return 0;
 }
 

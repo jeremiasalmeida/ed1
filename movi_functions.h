@@ -16,7 +16,7 @@
 struct movi
 {
     int id;
-    char* tipo;
+    char tipo;
     float valor;
     struct movi* proximo;
 };
@@ -37,14 +37,14 @@ extern struct movi* insertMovi(struct movi** root,struct movi* novo);
  */
 extern void print_movi(struct movi* root);
 
-
 /*
  * Faz a coleta das informacoes necessarias para uma nova movimentacao
  */
 extern struct movi* getData_movi();
 
-
 extern struct movi* deposito(float valor);
+
+extern struct tm* getDateAtual();
 
 /*
  * Cria uma movimentação de saque
