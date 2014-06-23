@@ -10,14 +10,14 @@ int main()
     int i=0;
     struct cc* raiz = NULL;
     print_red("ATENÇÃO");
-    print_alert("O modulos dos valores inseridos no programa serão automaticamente ajustados de acordo com a acao.");
+    print_alert("Os modulos dos valores inseridos no programa serão automaticamente ajustados de acordo com a acao.");
     
     raiz = insert(raiz, newNode(), findNextId(raiz));
-    raiz = insert(raiz, newNode(), findNextId(raiz));
-    raiz = insert(raiz, newNode(), findNextId(raiz));
-    raiz = insert(raiz, newNode(), findNextId(raiz));
-    raiz = insert(raiz, newNode(), findNextId(raiz));
-   
+    raiz->raiz = newMovi("D",123.23);
+    getDepositoData(raiz,1);
+    
+    printLastMovi(raiz,1);
+    
     return 0;
 }
 

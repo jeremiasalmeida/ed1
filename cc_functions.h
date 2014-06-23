@@ -28,7 +28,7 @@ struct cc
 {
     int id, altura;
     float saldo_atual, ultima_valor;
-    char nome[40], senha[6], cpf[12], rg[10], tipo_conta, ultima_tipo;
+    char nome[40], senha[6], cpf[12], rg[10], tipo_conta, ultima_tipo, status[1];
     struct tm *nascimento, *abertura, *ultima_data;
     struct cc* esquerda, *direita;
     struct movi* raiz;

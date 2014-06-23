@@ -36,6 +36,7 @@ struct cc* newNode()
     node->esquerda   = NULL;
     node->direita  = NULL;
     node->altura = 1;
+    strcpy(node->status,"A");
     node->nascimento = getDateAtual();
     node->abertura = getDateAtual();
    
@@ -105,7 +106,7 @@ struct cc* getData()
     float valor=0.00;
     char nascimento[10], buffer[100];
     struct cc* node = newNode();
- /*   
+   
     //Inicia a entrada dos dados
     print_bold("Entre com o nome:");
     while(!teste)
@@ -181,13 +182,13 @@ struct cc* getData()
             node->nascimento->tm_year = ano-1900;
         }
     }
-*/
+
     teste=0;
     print_bold("Entre com o valor de depósito inicial:");
     while(!teste)
     {
         teste = getInutFloat(&valor);
-        node->raiz = deposito(valor);
+        node->raiz = newDeposito(valor);
         if(valor > 12000.00) {node->tipo_conta = 'E';}else{node->tipo_conta = 'C';}
         
         node->saldo_atual = valor;
@@ -285,4 +286,17 @@ struct cc* findById(struct cc* node, int id)
     
     if(id < node->id){return findById(node->esquerda,id);}else{return findById(node->direita,id);}
     
+}
+
+int removeAcc(struct cc* root, int id)
+{
+    struct cc* node = findById(root,id);
+    if(node)
+    {
+        
+    }
+    else
+    {
+        
+    }
 }

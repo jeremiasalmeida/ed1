@@ -16,7 +16,7 @@
 struct movi
 {
     int id;
-    char tipo;
+    char tipo[1];
     float valor;
     struct movi* proximo;
 };
@@ -30,7 +30,7 @@ struct movi* newMovi(char tipo[], float valor);
 /*
  * insere uma nova movimentação a uma lista dada
  */
-extern struct movi* insertMovi(struct movi** root,struct movi* novo);
+extern void insertMovi(struct movi** root,struct movi* novo);
 
 /*
  * Printa a movimentação de uma lista dada.
@@ -42,16 +42,18 @@ extern void print_movi(struct movi* root);
  */
 extern struct movi* getData_movi();
 
-extern struct movi* deposito(float valor);
+extern struct movi* newDeposito(float valor);
 
 extern struct tm* getDateAtual();
 
 /*
  * Cria uma movimentação de saque
  */
-extern struct movi* saque(float valor);
+extern struct movi* newSaque(float valor);
 
 extern struct movi* transferencia();
-
+extern struct movi* getLastMovi(struct movi* root);
+extern void getDataSaque(struct cc* root,int id);
+extern void getTransferencia(struct cc* raiz,int id, int idDest);
 
 #endif	/* MOVI_FUNCTIONS_H */
