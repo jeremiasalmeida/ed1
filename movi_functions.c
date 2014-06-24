@@ -18,7 +18,13 @@ struct movi* newMovi(char tipo[1], float valor)
     novo->proximo = NULL;
     return novo;
 }
-
+void clearMovi(struct movi* root)
+{
+    if(!(root)) return;
+    clearMovi(root->proximo);
+    free(root);
+        
+}
 void insertMovi(struct movi** root,struct movi* novo)
 {
     //iniciar a procura pelo último item
@@ -66,7 +72,7 @@ struct movi* getData_movi()
         
         
         if(strcmp(tipo,"D"))     {return newDeposito(valor);}
-        else if(strcmp(tipo,"S")){return saque(valor);}
+        else if(strcmp(tipo,"S")){return newSaque(valor);}
         else if(strcmp(tipo,"T")){print_alert("implementar transferencia");}
         
         if((strcmp(tipo,"S") == 0) && (valor > 0))
@@ -99,7 +105,7 @@ void getDepositoData(struct cc* raiz, int id)
         insertMovi(&(node)->raiz,newDeposito(valor));
         printf("Valor a ser depositado: %d na conta: %d",valor,id);
         
-        node->ultima_tipo = "D";
+        strcpy(node->ultima_tipo,"D");
         node->ultima_data = getDateAtual();
         node->ultima_valor = valor;
         node->saldo_atual = node->saldo_atual + valor;
@@ -207,39 +213,6 @@ void printLastMovi(struct cc* root,int id)
     }
 }
 
-void getDataSaque(struct cc* root,int id)
-{
-    struct cc* node = findById(root,id);
-    if(node)
-    {
-        float valor=0;
-        int teste=0;
-        print_bold("Entre com o valor a ser sacado: ");
-        teste = getInutFloat(&valor);
-        if(teste<=0){print_alert("Valor passado invalido");return;}
-        if((node->saldo_atual < valor) &&  strcmp(node->tipo_conta,"C"))
-        {
-            print_alert("Saldo atual menor que");return;
-        }
-        else if(strcmp(node->tipo_conta,"E") && ((node->saldo_atual-valor) < 1500.00))
-        {
-            print_alert("Saldo especial estourado. Saque não realizado");return;
-        }
-        
-        insertMovi(&(node)->raiz,newSaque(valor));
-        printf("Valor a ser depositado: %d na conta: %d",valor,id);
-        
-        node->ultima_tipo = "S";
-        node->ultima_data = getDateAtual();
-        node->ultima_valor = valor;
-        node->saldo_atual = node->saldo_atual - valor;
-    }
-    else
-    {
-        print_alert("Conta não encontrada");
-    }
-}
-
 int saldoAtual(struct cc* raiz,int id)
 {
     struct cc* node = findById(raiz,id);
@@ -266,16 +239,16 @@ void getTransferencia(struct cc* raiz,int id, int idDest)
         print_bold("Valor da transferencia: ");
         teste = getInutFloat(&valor);
         if(teste==0){print_alert("Valor de entrada invalido");return;}
-        insertMovi(node,newSaque(valor));
-        insertMovi(destNode,newDeposito(valor));
+        insertMovi(&(node)->raiz,newSaque(valor));
+        insertMovi(&(destNode)->raiz,newDeposito(valor));
         
         /*repetindo demais, se der tempo modificar esta rotina*/
-        node->ultima_tipo = "S";
+        strcpy(node->ultima_tipo,"S");
         node->ultima_data = getDateAtual();
         node->ultima_valor = valor;
         node->saldo_atual = node->saldo_atual - valor;
         
-        destNode->ultima_tipo = "D";
+        strcpy(destNode->ultima_tipo,"D");
         destNode->ultima_data = getDateAtual();
         destNode->ultima_valor = valor;
         destNode->saldo_atual = node->saldo_atual + valor;
@@ -284,5 +257,38 @@ void getTransferencia(struct cc* raiz,int id, int idDest)
     else
     {
         print_alert("Combinação de contas invalidas");
+    }
+}
+
+void getDataSaque(struct cc* root,int id)
+{
+    struct cc* node = findById(root,id);
+    if(node)
+    {
+        float valor=0;
+        int teste=0;
+        print_bold("Entre com o valor a ser sacado: ");
+        teste = getInutFloat(&valor);
+        if(teste<=0){print_alert("Valor passado invalido");return;}
+        if((node->saldo_atual < valor) &&  strcmp(node->tipo_conta,"C"))
+        {
+            print_alert("Saldo atual menor que");return;
+        }
+        else if(strcmp(node->tipo_conta,"E") && ((node->saldo_atual-valor) < 1500.00))
+        {
+            print_alert("Saldo especial estourado. Saque não realizado");return;
+        }
+        
+        insertMovi(&(node)->raiz,newSaque(valor));
+        printf("Valor a ser depositado: %d na conta: %d",valor,id);
+        
+        strcpy(node->ultima_tipo,"S");
+        node->ultima_data = getDateAtual();
+        node->ultima_valor = valor;
+        node->saldo_atual = node->saldo_atual - valor;
+    }
+    else
+    {
+        print_alert("Conta não encontrada");
     }
 }

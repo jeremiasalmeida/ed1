@@ -11,6 +11,12 @@ int getInutChar(char *target)
     return sscanf(buffer," %[^\n]", target);
 }
 
+int getInutString(char target[])
+{
+    char buffer[ STRSIZE ];
+    fgets(buffer, sizeof buffer, stdin);
+    return sscanf(buffer," %[^\n]", target);
+}
 /*
  * Captura inteiros do stdin
  */

@@ -28,7 +28,7 @@ struct cc
 {
     int id, altura;
     float saldo_atual, ultima_valor;
-    char nome[40], senha[6], cpf[12], rg[10], tipo_conta, ultima_tipo, status[1];
+    char nome[40], senha[6], cpf[12], rg[10], tipo_conta, ultima_tipo[1], status[1];
     struct tm *nascimento, *abertura, *ultima_data;
     struct cc* esquerda, *direita;
     struct movi* raiz;
@@ -84,7 +84,8 @@ extern struct cc* rightRotate(struct cc* y);
  * da struct cc
  */
 extern struct cc* newNode();
-
+extern int getMaiorId(struct cc* root);
+extern int getReUsebleId(struct cc* root);
 extern int findNextId(struct cc* root);
 extern struct cc* findById(struct cc* node, int id);
 #endif	/* CC_FUNCTIONS_H */

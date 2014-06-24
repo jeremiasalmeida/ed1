@@ -45,7 +45,7 @@ extern struct movi* getData_movi();
 extern struct movi* newDeposito(float valor);
 
 extern struct tm* getDateAtual();
-
+extern void clearMovi(struct movi* root);
 /*
  * Cria uma movimentação de saque
  */
@@ -53,7 +53,5 @@ extern struct movi* newSaque(float valor);
 
 extern struct movi* transferencia();
 extern struct movi* getLastMovi(struct movi* root);
-extern void getDataSaque(struct cc* root,int id);
-extern void getTransferencia(struct cc* raiz,int id, int idDest);
 
 #endif	/* MOVI_FUNCTIONS_H */

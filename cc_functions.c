@@ -193,7 +193,7 @@ struct cc* getData()
         
         node->saldo_atual = valor;
         node->ultima_data = getDateAtual();
-        node->ultima_tipo = 'D';
+        strcpy(node->ultima_tipo,"D");
         node->ultima_valor = valor;
     }  
     return node;
@@ -205,7 +205,27 @@ struct cc* getData()
  */
 struct cc* insert(struct cc* node, struct cc* new, int id)
 {
-    if (id > 0)
+    struct cc* target = findById(node,id);
+    if(target)
+    {
+        target->abertura = new->abertura;
+        target->nascimento = new->nascimento;
+        target->raiz = new->raiz;
+        target->saldo_atual = new->saldo_atual;
+        target->ultima_data = new->ultima_data;
+        target->ultima_valor = new->ultima_valor;
+        
+        strcpy(target->status,"A");
+        strcpy(target->cpf,new->cpf);
+        strcpy(target->nome,new->nome);
+        strcpy(target->rg,new->rg);
+        strcpy(target->senha,new->senha);
+        //strcpy(target->tipo_conta,new->tipo_conta);
+        target->tipo_conta = new->tipo_conta;
+        strcpy(target->ultima_tipo,new->ultima_tipo);
+        
+    }
+    else if (id > 0)
     {
         if(!(node))
         {
@@ -261,21 +281,33 @@ void preOrder(struct cc* root)
 
 int findNextId(struct cc* root)
 {
+    int id = NULL;
+    id = getReUsebleId(root);
+    if(id == NULL) return getMaiorId(root);
+    else return id;
+}
+int getReUsebleId(struct cc* root)
+{
+    int ret = NULL;
     if(!(root))
     {
-        return 1;
+        return NULL;
     }
     else
     {
-        if(!(root->direita))
-        {
-            return root->id +1;
-        }
-        else
-        {
-            return findNextId(root->direita);
-        }
+        if(strcmp(root->status,"E") == 0) return root->id;
+        ret = findNextId(root->esquerda);
+        if(ret == NULL) ret = findNextId(root->esquerda);
+        return ret;
+        
     }
+}
+int getMaiorId(struct cc* root)
+{
+    if(!(root)) return 1;
+    if(!(root->direita)) return getMaiorId(root->direita);
+    else return root->id + 1;
+    
 }
 
 struct cc* findById(struct cc* node, int id)
@@ -293,10 +325,11 @@ int removeAcc(struct cc* root, int id)
     struct cc* node = findById(root,id);
     if(node)
     {
-        
+        strcpy(node->status,"E");
+        clearMovi(node->raiz);
     }
     else
     {
-        
+        print_alert("Conta invalida");
     }
 }
