@@ -31,71 +31,74 @@ int main()
                 else{
                     if((i==0) && (strcmp(passwd,"12345") == 0))
                     {
-                        print_alert("Funcionario autenticado");
-                        
-                        print_bold("Escolha uma opção:");
-                        printf("0 - Sair\n1 - cadastrar uma conta corrente\n");
-                        printf("2 - excluir uma conta corrente;\n3 - alterar os dados da conta corrente;\n");
-                        printf("4 - consultar dados da conta corrente;\n5 - realizar depósito em conta corrente;\n");
-                        printf("6 - efetivar saque em conta corrente;\n7 - consultar saldos;\n");
-                        printf("8 - realizar a transferência entre contas correntes;\n9 - consultar os dados da última movimentação.\n");
-                        
-                        teste = getInutInt(&op);
-                        if(teste==0){print_alert("Entrada invalida");op=-1;}
-                        
-                        switch(op)
+                        while(op!=0)
                         {
-                            case 1:
-                                getData();
-                                break;
-                            case 2:
-                                print_bold("Entre com o Id da conta: ");
-                                teste = getInutInt(&idHolder);
-                                removeAcc(root,idHolder);
-                                break;
-                            case 3:
-                                print_alert("Implementar se der tempo TODO:");
-                                break;
-                            case 4:
-                                print_alert("Implementar se der tempo TODO:");
-                                break;
-                            case 5:
-                                print_bold("Entre com o Id da conta: ");
-                                teste = getInutInt(&idHolder);
-                                getDepositoData(root,idHolder);
-                                break;
-                            case 6:
-                                print_bold("Entre com o Id da conta: ");
-                                teste = getInutInt(&idHolder);
-                                getDataSaque(root,idHolder);
-                                break;
-                            case 7:
-                                print_bold("Entre com o Id da conta: ");
-                                teste = getInutInt(&idHolder);
-                                printLastMovi(root,idHolder);
-                                break;
-                            case 8:
-                                print_bold("Entre com o Id-origem da conta: ");
-                                teste = getInutInt(&idHolder);
-                                print_bold("Entre com o Id-destino da conta: ");
-                                teste = getInutInt(&idHolder2);
-                                getTransferencia(root,idHolder,idHolder2);
-                                break;
-                            case 9:
-                                print_bold("Entre com o Id-origem da conta: ");
-                                teste = getInutInt(&idHolder);
-                                printLastMovi(root,idHolder);
-                                break;
-                            case 0:
-                                op=0;
-                                break;        
+                            print_alert("Funcionario autenticado!");
+                        
+                            print_bold("Escolha uma opção:");
+                            printf("0 - Sair\n1 - cadastrar uma conta corrente\n");
+                            printf("2 - excluir uma conta corrente;\n3 - alterar os dados da conta corrente;\n");
+                            printf("4 - consultar dados da conta corrente;\n5 - realizar depósito em conta corrente;\n");
+                            printf("6 - efetivar saque em conta corrente;\n7 - consultar saldos;\n");
+                            printf("8 - realizar a transferência entre contas correntes;\n9 - consultar os dados da última movimentação.\n");
+
+                            teste = getInutInt(&op);
+                            if(teste==0){print_alert("Entrada invalida");op=-1;}
+
+                            switch(op)
+                            {
+                                case 1:
+                                    root = insert(root,getData(),findNextId(root));
+                                    break;
+                                case 2:
+                                    print_bold("Entre com o Id da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    removeAcc(root,idHolder);
+                                    break;
+                                case 3:
+                                    print_alert("Implementar se der tempo TODO:");
+                                    break;
+                                case 4:
+                                    print_alert("Implementar se der tempo TODO:");
+                                    break;
+                                case 5:
+                                    print_bold("Entre com o Id da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    getDepositoData(root,idHolder);
+                                    break;
+                                case 6:
+                                    print_bold("Entre com o Id da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    getDataSaque(root,idHolder);
+                                    break;
+                                case 7:
+                                    print_bold("Entre com o Id da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    printLastMovi(root,idHolder);
+                                    break;
+                                case 8:
+                                    print_bold("Entre com o Id-origem da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    print_bold("Entre com o Id-destino da conta: ");
+                                    teste = getInutInt(&idHolder2);
+                                    getTransferencia(root,idHolder,idHolder2);
+                                    break;
+                                case 9:
+                                    print_bold("Entre com o Id-origem da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    printLastMovi(root,idHolder);
+                                    break;
+                                case 0:
+                                    op=0;
+                                    break;        
+                            }
                         }
-                        op=1;
+                        op=-1;
                    }
                    else{
                        struct cc* node = findById(root,i);
                        if((node)){
-                           if(strcmp(node->senha,passwd)==0)
+                           if(strcmp(node->senha,passwd)==0 && (strcmp(node->status,"A")==0))
                            {
                                while(op!=0)
                                {
