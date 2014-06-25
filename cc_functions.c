@@ -5,6 +5,7 @@
 #include "movi_functions.h"
 #include "print_format.h"
 #include "input_functions.h"
+#define STRSIZE_CC 130
 
 /*
  * Retorna a altura de uma arvore.
@@ -189,7 +190,7 @@ struct cc* getData()
     {
         teste = getInutFloat(&valor);
         node->raiz = newDeposito(valor);
-        if(valor > 12000.00) {node->tipo_conta = 'E';}else{node->tipo_conta = 'C';}
+        if(valor > 12000.00) { strcpy(node->tipo_conta,"E");}else{strcpy(node->tipo_conta,"C");}
         
         node->saldo_atual = valor;
         node->ultima_data = getDateAtual();
@@ -220,8 +221,7 @@ struct cc* insert(struct cc* node, struct cc* new, int id)
         strcpy(target->nome,new->nome);
         strcpy(target->rg,new->rg);
         strcpy(target->senha,new->senha);
-        //strcpy(target->tipo_conta,new->tipo_conta);
-        target->tipo_conta = new->tipo_conta;
+        strcpy(target->tipo_conta,new->tipo_conta);
         strcpy(target->ultima_tipo,new->ultima_tipo);
         
     }
@@ -331,5 +331,93 @@ int removeAcc(struct cc* root, int id)
     else
     {
         print_alert("Conta invalida");
+    }
+}
+
+void printCcdata(struct cc* root,int id)
+{
+    struct cc* node = findById(root,id);
+    if(node)
+    {
+        print_bold("Numero:");printf("%d\n",node->id);
+        print_bold("Nome:");print_green(node->nome);
+        print_bold("CPF:");print_green(node->cpf);
+        print_bold("RG:");print_green(node->rg);
+        print_bold("Nascimento:");printf("%d/%d/%d\n",node->nascimento->tm_mday,node->nascimento->tm_mon+1,(node->nascimento->tm_year+1900));
+        print_bold("Saldo Atual:");printf("%.2f\n",node->saldo_atual);
+        print_bold("Tipo da conta:");print_green(node->tipo_conta);
+    }
+    else
+    {
+        print_alert("Dados fornecidos invalidos");
+    }
+}
+
+void alterCCdata(struct cc* node)
+{
+    if(node)
+    {
+        /*
+         * Tem que permitir a alteração de:
+         * 1 - Nome
+         * 2 - Depósito Inicial
+         * 3 - Tipo da Conta
+         * 4 - Senha
+         */
+        int op=-1,teste,op2;
+        float fHolder;
+        char charHold[STRSIZE_CC];
+        while(op!=0)
+        {
+            printf("Alterar\n1 - Nome\n2 - Depósito Inicial\n3 - Tipo da Conta\n4 - Senha\n0 - Sair");
+            teste = getInutInt(&op);
+            switch(op)
+            {
+                case 1:
+                    print_bold("Entre com o novo nome");
+                    teste = getInutChar(charHold);
+                    if(teste==0){print_alert("Dados passos incorretos");break;}
+                    strcpy(node->nome,charHold);
+                    break;
+                case 2:
+                    print_bold("Entre com o novo valor e deposito (O tipo da conta NÃO será alterado)");
+                    teste = getInutFloat(&fHolder);
+                    if(teste==0){print_alert("Dados passos incorretos");break;}
+                    node->raiz->valor = fHolder;
+                    break;
+                case 3:
+                    print_bold("Atualmente:");
+                    print_alert(node->tipo_conta);
+                    printf("0 - Sair (padrão)\n1 - Especial\n2 - Comum\n");
+                    getInutFloat(&op2);
+                    switch(op2)
+                    {
+                        case 0:
+                        default:
+                            break;
+                        case 1:
+                            strcpy(node->tipo_conta,"E");
+                            break;
+                        case 2:
+                            strcpy(node->tipo_conta,"C");
+                            break;
+                    }
+                    break;
+                case 4:
+                    print_bold("Entre com a nova senha");
+                    teste = getInutChar(charHold);
+                    if(teste==0){print_alert("Dados passos incorretos");break;}
+                    strcpy(node->senha,charHold);
+                    break;
+                case 0:
+                default:
+                    print_alert("Saindo....");
+                    break;
+            }
+        }
+    }
+    else
+    {
+        print_alert("Dados fornecidos invalidos");
     }
 }

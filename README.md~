@@ -3,6 +3,7 @@ print_format.h - Header do arquivo que contém todas as funções relativas a en
  * Printa texto em bold
  */
 void print_bold(char t[]);
+
 /*
  * Printa texto em vermelho
  */

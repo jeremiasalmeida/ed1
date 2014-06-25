@@ -17,6 +17,7 @@ int getInutChar(char *target);
  * Captura inteiros do stdin
  */
 int getInutInt(int *target);
+int getInutFloat(float *target);
 int getInutString(char target[]);
 
 #endif	/* INPUT_FUNCTIONS__H */

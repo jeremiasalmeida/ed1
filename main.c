@@ -36,7 +36,7 @@ int main()
                             print_alert("Funcionario autenticado!");
                         
                             print_bold("Escolha uma opção:");
-                            printf("0 - Sair\n1 - cadastrar uma conta corrente\n");
+                            printf("0 - Sair (Opção padrão)\n1 - cadastrar uma conta corrente\n");
                             printf("2 - excluir uma conta corrente;\n3 - alterar os dados da conta corrente;\n");
                             printf("4 - consultar dados da conta corrente;\n5 - realizar depósito em conta corrente;\n");
                             printf("6 - efetivar saque em conta corrente;\n7 - consultar saldos;\n");
@@ -56,10 +56,14 @@ int main()
                                     removeAcc(root,idHolder);
                                     break;
                                 case 3:
-                                    print_alert("Implementar se der tempo TODO:");
+                                    print_bold("Entre com o Id da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    alterCCdata(findById(root,idHolder));
                                     break;
                                 case 4:
-                                    print_alert("Implementar se der tempo TODO:");
+                                    print_bold("Entre com o Id da conta: ");
+                                    teste = getInutInt(&idHolder);
+                                    printCcdata(root,idHolder);
                                     break;
                                 case 5:
                                     print_bold("Entre com o Id da conta: ");
@@ -89,6 +93,8 @@ int main()
                                     printLastMovi(root,idHolder);
                                     break;
                                 case 0:
+                                default:
+                                    print_alert("Saindo");
                                     op=0;
                                     break;        
                             }
@@ -103,7 +109,7 @@ int main()
                                while(op!=0)
                                {
                                    print_bold("Escolha uma opção");
-                                   printf("0 - Sair\n1 - realizar depósito em conta corrente\n2 - efetivar saque em conta corrente\n");
+                                   printf("0 - Sair (Opção padrão)\n1 - realizar depósito em conta corrente\n2 - efetivar saque em conta corrente\n");
                                    printf("3 - consultar saldos\n4 - realizar a transferência entre contas correntes;\n");
                                    printf("5 - consultar os dados da última movimentação\n");
                                    teste = getInutInt(&op);
@@ -129,6 +135,7 @@ int main()
                                            printLastMovi(root,i);
                                            break;
                                        case 0:
+                                       default:
                                            op=0;
                                            break;        
                                    }
